@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using RMSDesktopUI.Helper;
 using RMSDesktopUI.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace RMSDesktopUI
 {
@@ -15,6 +17,11 @@ namespace RMSDesktopUI
         public Bootstrapper()
         {
             Initialize();
+
+            ConventionManager.AddElementConvention<PasswordBox>(
+            BoundPasswordBox.BoundPasswordProperty,
+            "Password",
+            "PasswordChanged");
         }
 
         protected override void Configure()
@@ -23,7 +30,8 @@ namespace RMSDesktopUI
 
             _container
                 .Singleton<IWindowManager, WindowManager>()
-                .Singleton<IEventAggregator, EventAggregator>();
+                .Singleton<IEventAggregator, EventAggregator>()
+                .Singleton<IAPIHelper, APIHelper>();
 
             GetType().Assembly.GetTypes()
                 .Where(type => type.IsClass)
@@ -32,10 +40,8 @@ namespace RMSDesktopUI
                 .ForEach(vw => _container.RegisterPerRequest(vw, vw.ToString(), vw));
         }
 
-
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
-            
             DisplayRootViewFor<ShellViewModel>();
         }
 

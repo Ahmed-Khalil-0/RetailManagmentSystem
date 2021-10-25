@@ -250,7 +250,7 @@ namespace DataManager
                         // If your API supports ApiKey, you can override the default values.
                         // "apiKeyIn" can either be "query" or "header"
                         //
-                        //c.EnableApiKeySupport("apiKey", "header");
+                        c.EnableApiKeySupport("apiKey", "header");
                     });
         }
     }
